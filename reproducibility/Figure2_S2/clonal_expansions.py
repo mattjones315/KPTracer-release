@@ -83,7 +83,7 @@ def annotate_tree(tree, min_clade_size=10, min_depth=1):
                     continue
                 
                 b = len(node2leaves[c])
-                p = np.sum([pnk(kn, b2, num_lineages) for b2 in range(b, kn-num_lineages+2)])
+                p = nCr(n - b, k - 1) / nCr(n - 1, k - 1)
                 node_to_exp[c.name] = p
 
     return tree, node_to_exp
