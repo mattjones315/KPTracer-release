@@ -64,8 +64,6 @@ def permute(cells, nearest_neighbors, labels, rng=None):
         count += sum(bootstrap_cell_labels[neighbor] == bootstrap_cell_labels[leaf] for neighbor in neighbors) / len(neighbors)
     return count / len(nearest_neighbors)
 
-apiKey = 'GMkmiUxXIyzqip9q2YxVyg'
-projectName = 'KP_Trees_Joseph' ## Specify the project name
 plot_dir = 'plots'
 save_dir = 'frozen/nearest_neighbor_bootstrap'
 
