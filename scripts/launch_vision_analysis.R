@@ -13,8 +13,6 @@ options(mc.cores=15)
 # read in data -------------------------------------
 adata = scanpy$read_h5ad("/data/yosef2/users/mattjones/projects/kptc/KPTracer-Data/expression/adata_processed.nt.h5ad")
 
-f.genes <- adata$var_names
-
 counts = adata$raw$X
 rownames(counts) <- as.character(adata$raw$obs_names$to_list())
 colnames(counts) <- as.character(adata$raw$var_names$to_list())
@@ -49,6 +47,7 @@ meta[rownames(plasticity), colnames(plasticity)] = plasticity
 meta$scPlasticity <- zero_one_normalize(meta$scPlasticity)
 meta$scPlasticityL2 <- zero_one_normalize(meta$scPlasticityL2)
 meta$scPlasticityAllele <- zero_one_normalize(meta$scPlasticityAllele)
+
 meta$leiden <- as.factor(meta$leiden_sub, levels=uniquemeta($leiden_sub))
 meta$Batch_Library <- as.factor(meta$Batch_Library, levels=uniquemeta($Batch_Library))
 meta$Tumor <- as.factor(meta$Tumor, levels=uniquemeta($Tumor))
@@ -107,7 +106,7 @@ counts <- Matrix(counts)
 f.genes = VISION:::filterGenesFano(counts)
 
 # create vision object
-vis <- Vision(data, sigs, projection_genes = f.genes, meta=meta, pool=F, latentSpace=scvi,
+vis <- Vision(counts, sigs, projection_genes = f.genes, meta=meta, pool=F, latentSpace=scvi,
                     projection_methods=c("tSNE30", "UMAP"), sig_gene_threshold=0.01, num_neighbors=30)
 vis <- addProjection(vis, 'scanpyUMAP', umap)
 vis = analyze(vis)

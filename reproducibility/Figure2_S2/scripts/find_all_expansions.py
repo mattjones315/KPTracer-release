@@ -9,14 +9,16 @@ from ete3 import Tree
 import pickle as pic
 from tqdm import tqdm
 
-sys.path.append("/data/yosef2/users/mattjones/projects/kptc/KPTracer/notebooks/")
+sys.path.append("/path/to/utilities")
 from utilities import clonal_expansions
 
 import cassiopeia as cas
 from cassiopeia.solver import solver_utilities
 
-base_dir = "/data/yosef2/users/mattjones/projects/kptc/trees/"
-tumor2model = pd.read_csv("/data/yosef2/users/mattjones/projects/kptc/trees/tumor_model.txt", sep='\t', index_col = 0)
+data_directory = "/path/to/KPTracer-Data"
+base_dir = f"{data_directory}/trees/"
+save_dir = "/path/to/savedir"
+tumor_list = pd.read_csv(f"{data_directory}/trees/tumor_list.txt", sep='\t')
 
 # set parameters for clonal expansion detection
 PVAL = 0.01
@@ -25,7 +27,7 @@ MIN_DEPTH=1
 FIRST_EXPANSION = False
 GENOTYPE = 'NT'
 
-for tumor in tqdm(tumor2model.index):
+for tumor in tqdm(tumor_list['Tumor'].values):
 
     if 'All' in tumor or 'Met' in tumor or 'Fam' in tumor:
         continue
@@ -33,15 +35,15 @@ for tumor in tqdm(tumor2model.index):
     if GENOTYPE not in tumor:
         continue
 
-    # tree_fp = os.path.join(base_dir, tumor, tumor2model.loc[tumor, 'Newick'])
-    tree_fp = os.path.join(base_dir, tumor, f"{tumor}_tree_nj.processed.tree")
+    # tree_fp = f"{data_directory}/trees/{tumor}_tree.nwk"
+    tree_fp = f"{data_directory}/trees/nj/{tumor}_tree_nj.processed.tree"
     if not os.path.exists(tree_fp):
         continue
 
     # print(tumor)
     # tree = Tree(tree_fp, format=1)
 
-    character_matrix = pd.read_csv(f"/data/yosef2/users/mattjones/projects/kptc/trees/{tumor}/{tumor}_character_matrix.txt", sep='\t', index_col = 0)
+    character_matrix = pd.read_csv(f"{data_directory}/{tumor}_character_matrix.txt", sep='\t', index_col = 0)
     print(tumor)
 
     character_matrix = character_matrix.replace("-", "-1").astype(int)
@@ -77,8 +79,8 @@ for tumor in tqdm(tumor2model.index):
                         _first=FIRST_EXPANSION,
                         min_clade_prop = MIN_CLADE_PROP)
 
-    outfp = os.path.join(base_dir, tumor, f"clonal_expansions.{tumor}.nj.txt")
-    # outfp = os.path.join(base_dir, tumor, f"clonal_expansions.{tumor}.txt")
+    outfp = os.path.join(save_dir, tumor, f"clonal_expansions.{tumor}.nj.txt")
+    # outfp = os.path.join(save_dir, tumor, f"clonal_expansions.{tumor}.txt")
     expansions.to_csv(outfp, sep = '\t')
 
     # j = 1

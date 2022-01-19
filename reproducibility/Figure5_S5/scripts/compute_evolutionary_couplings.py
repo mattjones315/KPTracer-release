@@ -10,15 +10,15 @@ from tqdm.auto import tqdm
 
 import tree_utilities
 
-HOME = "/data/yosef2/users/mattjones/projects/KPTracer-release/reproducibility/Figure5_S5/data"
+HOME = 'path_to_phylogenetic_distances'
 
-tumor2model = pd.read_csv(
-    os.path.join(HOME, "trees/tumor_model.txt"), sep="\t", index_col=0
-)
+
+tumor_list = pd.read_csv(
+    "/path/to/KPTracer-Data/trees/tumor_list.txt", sep="\t"
+)['Tumor'].values
+
 adata_all = sc.read_h5ad(
-    os.path.join(
-        HOME, "RNA/ALL/adata_processed.all_filtered_combined_assignments.h5ad"
-    )
+    "/path/to/KPTracer-Data/expression/adata_processed.combined.h5ad"
 )
 
 FILTER_PROP = 0.025  # minimum state proportion to be considered in evo coupling
@@ -39,7 +39,7 @@ observed_df = {}
 
 tumors = [
     t
-    for t in tumor2model.index
+    for t in tumor_list
     if "Fam" not in t
     and "Met" not in t
     and "All" not in t

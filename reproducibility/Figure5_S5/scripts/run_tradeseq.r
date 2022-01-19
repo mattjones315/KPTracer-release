@@ -28,7 +28,7 @@ BPPARAM$workers <- 4
 WRITE = FALSE
 
 # read in data -------------------------------------
-home.dir = "/data/yosef2/users/mattjones/projects/kptc/RNA/NT/"
+home.dir = paste0("/path/to/KPTracer-Data", "/expression/raw/NT/")
 data = readMM(paste0(home.dir, "mm10/matrix.mtx"))
 genes = read.table(paste0(home.dir, "mm10/genes.tsv"), sep='\t', row.names=1, header=F, stringsAsFactors=F)[,1]
 bc = read.table(paste0(home.dir,"mm10/barcodes.tsv"), sep='\t', header=F, stringsAsFactors=F)[,1]
@@ -41,8 +41,8 @@ norm.factor = median(colSums(data))
 data <- t( t(data) / colSums(data)) * norm.factor
 
 # read in fate times ---------------------------------
-fate_times1 = read.table("/data/yosef2/users/mattjones/projects/kptc/KPTracer/notebooks/fate_cluster1_treetime.tsv", sep='\t', row.names=1, header=T)
-fate_times2 = read.table("/data/yosef2/users/mattjones/projects/kptc/KPTracer/notebooks/fate_cluster2_treetime.tsv", sep='\t', row.names=1, header=T)
+fate_times1 = read.table("../data/fate_cluster1_treetime.tsv", sep='\t', row.names=1, header=T)
+fate_times2 = read.table("../data/fate_cluster2_treetime.tsv", sep='\t', row.names=1, header=T)
 
 colnames(fate_times1) <- c("Fate1")
 colnames(fate_times2) <- c("Fate2")

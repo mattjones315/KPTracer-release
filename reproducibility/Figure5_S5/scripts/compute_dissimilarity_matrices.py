@@ -11,10 +11,11 @@ from tqdm.auto import tqdm
 
 import tree_utilities
 
+data_directory = "/path/to/KPTracer-Data"
 adata = sc.read_h5ad(
-    '/data/yosef2/users/mattjones/projects/kptc/KPTracer-Data/expression/adata_processed.nt.h5ad'
+    f'{data_directory}/expression/adata_processed.nt.h5ad'
 )
-tumor2model = pd.read_csv("/data/yosef2/users/mattjones/projects/kptc/trees/tumor_model.txt", sep='\t', index_col = 0)
+tumor_list = pd.read_csv(f"{data_directory}/tumor_list.txt", sep='\t')['Tumor'].values
 
 FILTER_PROP = 0.025
 PREPROCESS = True
@@ -28,7 +29,7 @@ observed_df = {}
 
 tumors = [
     t
-    for t in tumor2model.index
+    for t in tumor_list
     if "Fam" not in t
     and "Met" not in t
     and "All" not in t
@@ -66,11 +67,11 @@ for tumor in tqdm(tumors):
     np.fill_diagonal(edit_distance_matrix.values, 0)
 
     phylogenetic_distance_matrix.to_csv(
-        f"/data/yosef2/users/mattjones/projects/kptc/KPTracer-release/reproducibility/Figure5_S5/data/{tumor}_phylogenetic_distance_matrix.tsv",
+        f"/path/to/savedir/{tumor}_phylogenetic_distance_matrix.tsv",
         sep="\t",
     )
 
     edit_distance_matrix.to_csv(
-        f"/data/yosef2/users/mattjones/projects/kptc/KPTracer-release/reproducibility/Figure5_S5/data/{tumor}_edit_distance_matrix.tsv",
+        f"/path/to/savedir/{tumor}_edit_distance_matrix.tsv",
         sep="\t",
     )
