@@ -54,7 +54,7 @@ Once you've downloaded this data, you can use [the script](https://github.com/ma
 
 -   A tumor name that exists in the `KPTracer-Data/trees` directory
 -   The path to the `KPTracer-Data` directory, downloaded from Zenodo.
--   The path to the directory holding the signatures you'd like to use. The script will use all the signatures stored in this folder, so it is advisable to create a new directory specifically for this analysis. Note: Make sure these are signatures with gene names from mm10! We provide two example signature files for mm10 in our [reproducibility repository](https://github.com/mattjones315/KPTracer-release/tree/main/data).
+-   The path to the directory holding the signatures you'd like to use. The script will use all the signatures stored in this folder, so it is advisable to create a new directory specifically for this analysis. Note: Make sure these are signatures with gene names from mm10! We provide two example signature files for mm10 in our [reproducibility repository](https://github.com/mattjones315/KPTracer-release/tree/main/tutorials/data).
 -   The file path at which you'd like to save the analyzed object.
 
 For example, the following can be used to launch the script from command line:
